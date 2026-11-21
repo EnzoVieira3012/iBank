@@ -5,6 +5,7 @@ import com.ibank.audit.dto.AuditQueryRequest;
 import com.ibank.audit.dto.AuditStatisticsResponse;
 import com.ibank.audit.mapper.AuditEventMapper;
 import com.ibank.audit.model.AuditEvent;
+import com.ibank.audit.service.AuditExportService;
 import com.ibank.audit.service.AuditService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,6 +34,7 @@ public class AuditController {
 
     private final AuditService auditService;
     private final AuditEventMapper mapper;
+    private final AuditExportService exportService;
 
     @GetMapping("/events/{id}")
     @PreAuthorize("hasRole('AUDITOR') or hasRole('ADMIN')")
@@ -143,5 +146,70 @@ public class AuditController {
         return event != null
             ? ResponseEntity.ok(mapper.toResponse(event))
             : ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/export/{entityType}/{entityId}")
+    @PreAuthorize("hasRole('AUDITOR') or hasRole('ADMIN')")
+    @Operation(summary = "Export entity audit trail as JSON")
+    public ResponseEntity<ByteArrayResource> exportEntityJson(
+        @PathVariable String entityType,
+        @PathVariable String entityId,
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant start,
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant end
+    ) throws IOException {
+        byte[] data = exportService.exportEventsJson(entityType, entityId, start, end);
+        return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=audit-%s-%s.json".formatted(entityType, entityId))
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(new ByteArrayResource(data));
+    }
+
+    @GetMapping("/export/{entityType}/{entityId}/gz")
+    @PreAuthorize("hasRole('AUDITOR') or hasRole('ADMIN')")
+    @Operation(summary = "Export entity audit trail as gzipped JSON")
+    public ResponseEntity<ByteArrayResource> exportEntityJsonGzipped(
+        @PathVariable String entityType,
+        @PathVariable String entityId,
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant start,
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant end
+    ) throws IOException {
+        byte[] data = exportService.exportEventsJsonGzipped(entityType, entityId, start, end);
+        return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=audit-%s-%s.json.gz".formatted(entityType, entityId))
+            .contentType(MediaType.APPLICATION_OCTET_STREAM)
+            .body(new ByteArrayResource(data));
+    }
+
+    @GetMapping("/export/{entityType}/{entityId}/csv")
+    @PreAuthorize("hasRole('AUDITOR') or hasRole('ADMIN')")
+    @Operation(summary = "Export entity audit trail as CSV")
+    public ResponseEntity<ByteArrayResource> exportEntityCsv(
+        @PathVariable String entityType,
+        @PathVariable String entityId,
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant start,
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant end
+    ) throws IOException {
+        byte[] data = exportService.exportEventsCsv(entityType, entityId, start, end);
+        return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=audit-%s-%s.csv".formatted(entityType, entityId))
+            .contentType(MediaType.parseMediaType("text/csv"))
+            .body(new ByteArrayResource(data));
+    }
+
+    @GetMapping("/export/period")
+    @PreAuthorize("hasRole('AUDITOR') or hasRole('ADMIN')")
+    @Operation(summary = "Export all events in period as CSV")
+    public ResponseEntity<ByteArrayResource> exportPeriodCsv(
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant start,
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant end,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "5000") int size
+    ) throws IOException {
+        Pageable pageable = PageRequest.of(page, size);
+        byte[] data = exportService.exportAllEventsCsv(start, end, pageable);
+        return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=audit-period-%s-to-%s.csv".formatted(start.toString().replace(':', '-'), end.toString().replace(':', '-')))
+            .contentType(MediaType.parseMediaType("text/csv"))
+            .body(new ByteArrayResource(data));
     }
 }

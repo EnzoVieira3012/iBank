@@ -69,4 +69,11 @@ public class AuditEvent {
 
     @Version
     private Long version;
+
+    @Column(name = "archived", nullable = false)
+    @Builder.Default
+    private Boolean archived = false;
+
+    @Column(name = "archived_at")
+    private Instant archivedAt;
 }

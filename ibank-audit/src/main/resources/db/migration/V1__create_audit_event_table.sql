@@ -16,7 +16,9 @@ CREATE TABLE IF NOT EXISTS audit_event (
     user_agent VARCHAR(500),
     occurred_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     checksum VARCHAR(64) NOT NULL,
-    version BIGINT NOT NULL DEFAULT 0
+    version BIGINT NOT NULL DEFAULT 0,
+    archived BOOLEAN NOT NULL DEFAULT FALSE,
+    archived_at TIMESTAMPTZ
 );
 
 CREATE INDEX IF NOT EXISTS idx_audit_event_entity ON audit_event (entity_type, entity_id);
@@ -25,3 +27,4 @@ CREATE INDEX IF NOT EXISTS idx_audit_event_user ON audit_event (user_id);
 CREATE INDEX IF NOT EXISTS idx_audit_event_correlation ON audit_event (correlation_id);
 CREATE INDEX IF NOT EXISTS idx_audit_event_checksum ON audit_event (checksum);
 CREATE INDEX IF NOT EXISTS idx_audit_event_type_time ON audit_event (event_type, occurred_at);
+CREATE INDEX IF NOT EXISTS idx_audit_event_archived ON audit_event (archived, occurred_at) WHERE archived = false;

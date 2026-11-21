@@ -26,6 +26,9 @@ ibank:
   audit:
     checksum:
       secret: ${AUDIT_CHECKSUM_SECRET:change-me-in-production-min-32-chars}
+    retention:
+      cron: "0 0 2 * * ?"
+      enabled: true
 
 logging:
   level:
