@@ -33,7 +33,7 @@ iBank is a **production-ready banking API** demonstrating enterprise-grade patte
 | 💸 **Transfers** | TED (17h cutoff), Internal (instant), Scheduled, Cancellation, Idempotency | ✅ Done |
 | 🏗️ **Credit** | Loans & Financing with Price/SAC/Sacador tables, Early settlement, Renegotiation | ✅ Done |
 | 💳 **Cards** | Credit/Debit/Multiple/Prepaid, Invoices, Installments, Transaction authorization | ✅ Done |
-| 💰 **Fees & Interest** | Versioned fee tables, Rotary interest, Savings yield, Overdraft | ⏳ Planned |
+| 💰 **Fees & Interest** | Versioned fee tables, Rotary interest, Savings yield, Overdraft | ✅ Done |
 | 🔒 **Limits** | Daily/Monthly limits, Auto-block on breach, Overdraft control | ⏳ Planned |
 | 🛡️ **Antifraud** | Velocity, Device fingerprint, Geo-location, Risk scoring, Auto-block/Challenge | ⏳ Planned |
 | 📜 **Audit** | Immutable logs (partitioned), Correlation ID tracing, LGPD/Bacen compliance | ⏳ Planned |
@@ -81,7 +81,7 @@ graph TD
     api --> transfer[ibank-transfer ✅]
     api --> credit[ibank-credit ✅]
     api --> card[ibank-card ✅]
-    api --> fee[ibank-fee ⏳]
+    api --> fee[ibank-fee ✅]
     api --> limit[ibank-limit ⏳]
     api --> antifraud[ibank-antifraud ⏳]
     api --> audit[ibank-audit ⏳]
