@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgresql:16:///ibank_audit_test
+    username: test
+    password: test
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: false
+
+ibank:
+  audit:
+    checksum:
+      secret: test-secret-key-for-testing-purposes-only-32chars
+
+logging:
+  level:
+    com.ibank.audit: DEBUG
