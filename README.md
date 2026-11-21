@@ -36,8 +36,8 @@ iBank is a **production-ready banking API** demonstrating enterprise-grade patte
 | 💰 **Fees & Interest** | Versioned fee tables, Rotary interest, Savings yield, Overdraft | ✅ Done |
 | 🔒 **Limits** | Daily/Monthly limits, Auto-block on breach, Overdraft control | ✅ Done |
 | 🛡️ **Antifraud** | Velocity, Device fingerprint, Geo-location, Risk scoring, Auto-block/Challenge | ✅ Done |
-| 📜 **Audit** | Immutable logs (partitioned), Correlation ID tracing, LGPD/Bacen compliance | ⏳ Planned |
-| 📊 **Reconciliation** | CNAB 240/400 import, Automated matching, Discrepancy resolution, Reports | ⏳ Planned |
+| 📜 **Audit** | Immutable logs (partitioned), Correlation ID tracing, LGPD/Bacen compliance | ✅ Done |
+| 📊 **Reconciliation** | CNAB 240/400 import, Automated matching, Discrepancy resolution, Reports | ✅ Done |
 
 ---
 
@@ -85,7 +85,7 @@ graph TD
     api --> limit[ibank-limit ✅]
     api --> antifraud[ibank-antifraud ⏳]
     api --> audit[ibank-audit ✅]
-    api --> recon[ibank-reconciliation ⏳]
+    api --> recon[ibank-reconciliation ✅]
     
     account --> core
     pix --> core

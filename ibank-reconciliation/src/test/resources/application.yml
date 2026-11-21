@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgresql:16:///ibank_recon_test
+    username: test
+    password: test
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: false
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false
+
+ibank:
+  reconciliation:
+    daily-job-type: DAILY_SETTLEMENT
+    source-system: core-banking
+    target-system: general-ledger
+    daily-cron: "0 0 2 * * ?"
+
+logging:
+  level:
+    com.ibank.reconciliation: DEBUG
