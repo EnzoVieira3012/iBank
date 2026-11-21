@@ -1,0 +1,2418 @@
+{
+  "info": {
+    "_postman_id": "ibank-core-banking-api",
+    "name": "iBank Core Banking Platform",
+    "description": "Complete API collection for all iBank modules. Organized by domain with environment variables for easy configuration.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "EnzoVieira3012"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string",
+      "description": "API Gateway base URL"
+    },
+    {
+      "key": "apiKey",
+      "value": "",
+      "type": "string",
+      "description": "API Key for authentication (if used)"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string",
+      "description": "JWT access token - set after login"
+    },
+    {
+      "key": "customerId",
+      "value": "550e8400-e29b-41d4-a716-446655440000",
+      "type": "string",
+      "description": "Example customer UUID"
+    },
+    {
+      "key": "accountId",
+      "value": "550e8400-e29b-41d4-a716-446655440001",
+      "type": "string",
+      "description": "Example account UUID"
+    },
+    {
+      "key": "cardId",
+      "value": "550e8400-e29b-41d4-a716-446655440002",
+      "type": "string",
+      "description": "Example card UUID"
+    },
+    {
+      "key": "pixKeyId",
+      "value": "550e8400-e29b-41d4-a716-446655440003",
+      "type": "string",
+      "description": "Example PIX key UUID"
+    },
+    {
+      "key": "transferId",
+      "value": "550e8400-e29b-41d4-a716-446655440004",
+      "type": "string",
+      "description": "Example transfer UUID"
+    },
+    {
+      "key": "loanId",
+      "value": "550e8400-e29b-41d4-a716-446655440005",
+      "type": "string",
+      "description": "Example loan UUID"
+    },
+    {
+      "key": "limitId",
+      "value": "550e8400-e29b-41d4-a716-446655440006",
+      "type": "string",
+      "description": "Example limit UUID"
+    },
+    {
+      "key": "blockId",
+      "value": "550e8400-e29b-41d4-a716-446655440007",
+      "type": "string",
+      "description": "Example block UUID"
+    },
+    {
+      "key": "fraudRuleId",
+      "value": "550e8400-e29b-41d4-a716-446655440008",
+      "type": "string",
+      "description": "Example fraud rule UUID"
+    },
+    {
+      "key": "fraudAlertId",
+      "value": "550e8400-e29b-41d4-a716-446655440009",
+      "type": "string",
+      "description": "Example fraud alert UUID"
+    },
+    {
+      "key": "fraudCaseId",
+      "value": "550e8400-e29b-41d4-a716-446655440010",
+      "type": "string",
+      "description": "Example fraud case UUID"
+    },
+    {
+      "key": "auditEventId",
+      "value": "550e8400-e29b-41d4-a716-446655440011",
+      "type": "string",
+      "description": "Example audit event UUID"
+    },
+    {
+      "key": "reconJobId",
+      "value": "550e8400-e29b-41d4-a716-446655440012",
+      "type": "string",
+      "description": "Example reconciliation job UUID"
+    },
+    {
+      "key": "reconBreakId",
+      "value": "550e8400-e29b-41d4-a716-446655440013",
+      "type": "string",
+      "description": "Example reconciliation break UUID"
+    },
+    {
+      "key": "feeConfigId",
+      "value": "550e8400-e29b-41d4-a716-446655440014",
+      "type": "string",
+      "description": "Example fee config UUID"
+    },
+    {
+      "key": "interestRateId",
+      "value": "550e8400-e29b-41d4-a716-446655440015",
+      "type": "string",
+      "description": "Example interest rate UUID"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "🔐 Authentication",
+      "item": [
+        {
+          "name": "POST Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "auth", "login"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"your-username\",\n  \"password\": \"your-password\"\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Save access token",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/auth/login",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "auth", "login"]
+                }
+              },
+              "response": {
+                "status": "OK",
+                "code": 200,
+                "_postman_previewlanguage": "json",
+                "header": [],
+                "cookie": [],
+                "body": "{\n  \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\n  \"refreshToken\": \"dGhpcyBpcyBhIHJlZnJlc2ggdG9rZW4...\",\n  \"tokenType\": \"Bearer\",\n  \"expiresIn\": 3600\n  }"
+              }
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  const response = pm.response.json();",
+                  "  pm.collectionVariables.set('accessToken', response.accessToken);",
+                  "  pm.collectionVariables.set('refreshToken', response.refreshToken);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/refresh",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "auth", "refresh"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+            }
+          }
+        },
+        {
+          "name": "POST Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/logout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "auth", "logout"]
+            }
+          }
+        },
+        {
+          "name": "POST Register Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "auth", "register"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"document\": \"12345678901\",\n  \"name\": \"John Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"phone\": \"+5511999999999\",\n  \"password\": \"SecurePass123!\",\n  \"birthDate\": \"1990-01-01\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "👤 Customer & Account Management",
+      "item": [
+        {
+          "name": "GET List Customers",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/customers?page=0&size=20&sort=name,ASC",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "customers"],
+              "query": [
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "20" },
+                { "key": "sort", "value": "name,ASC" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET Get Customer by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/customers/{{customerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "customers", "{{customerId}}"]
+            }
+          }
+        },
+        {
+          "name": "POST Create Customer",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/customers",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "customers"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"document\": \"98765432100\",\n  \"name\": \"Jane Smith\",\n  \"email\": \"jane.smith@example.com\",\n  \"phone\": \"+5511888888888\",\n  \"birthDate\": \"1985-05-15\",\n  \"address\": {\n    \"street\": \"Av. Paulista\",\n    \"number\": \"1000\",\n    \"complement\": \"Apt 101\",\n    \"neighborhood\": \"Bela Vista\",\n    \"city\": \"São Paulo\",\n    \"state\": \"SP\",\n    \"zipCode\": \"01310-100\"\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "PUT Update Customer",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/customers/{{customerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "customers", "{{customerId}}"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jane Smith Updated\",\n  \"phone\": \"+5511777777777\",\n  \"address\": {\n    \"street\": \"Av. Paulista\",\n    \"number\": \"1000\",\n    \"complement\": \"Apt 202\",\n    \"neighborhood\": \"Bela Vista\",\n    \"city\": \"São Paulo\",\n    \"state\": \"SP\",\n    \"zipCode\": \"01310-100\"\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "DELETE Delete Customer",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/customers/{{customerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "customers", "{{customerId}}"]
+            }
+          }
+        },
+        {
+          "name": "📋 Account Operations",
+          "item": [
+            {
+              "name": "POST Create Account",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/accounts",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "accounts"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"type\": \"CHECKING\",\n  \"currency\": \"BRL\",\n  \"initialDeposit\": 1000.00,\n  \"branch\": \"0001\"\n}"
+                }
+              }
+            },
+            {
+              "name": "GET Get Account",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/accounts/{{accountId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "accounts", "{{accountId}}"]
+                }
+              }
+            },
+            {
+              "name": "GET List Accounts by Customer",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/accounts?customerId={{customerId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "accounts"],
+                  "query": [{ "key": "customerId", "value": "{{customerId}}" }]
+                }
+              }
+            },
+            {
+              "name": "GET Account Balance",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/accounts/{{accountId}}/balance",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "accounts", "{{accountId}}", "balance"]
+                }
+              }
+            },
+            {
+              "name": "GET Account Statement",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/accounts/{{accountId}}/statement?startDate=2024-01-01&endDate=2024-12-31&page=0&size=50",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "accounts", "{{accountId}}", "statement"],
+                  "query": [
+                    { "key": "startDate", "value": "2024-01-01" },
+                    { "key": "endDate", "value": "2024-12-31" },
+                    { "key": "page", "value": "0" },
+                    { "key": "size", "value": "50" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "POST Freeze Account",
+              "request": {
+                "method": "POST",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/accounts/{{accountId}}/freeze",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "accounts", "{{accountId}}", "freeze"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"Suspected fraudulent activity\"\n}"
+                }
+              }
+            },
+            {
+              "name": "POST Unfreeze Account",
+              "request": {
+                "method": "POST",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/accounts/{{accountId}}/unfreeze",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "accounts", "{{accountId}}", "unfreeze"]
+                }
+              }
+            },
+            {
+              "name": "POST Close Account",
+              "request": {
+                "method": "POST",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/accounts/{{accountId}}/close",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "accounts", "{{accountId}}", "close"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"Customer request\"\n}"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "⚡ PIX Operations",
+      "item": [
+        {
+          "name": "🔑 PIX Key Management",
+          "item": [
+            {
+              "name": "POST Register PIX Key",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/pix/keys",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "pix", "keys"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountId\": \"{{accountId}}\",\n  \"keyType\": \"CPF\",\n  \"keyValue\": \"12345678901\",\n  \"keyId\": \"pix-cpf-12345678901\"\n}"
+                }
+              }
+            },
+            {
+              "name": "GET List PIX Keys by Account",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/pix/keys?accountId={{accountId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "pix", "keys"],
+                  "query": [{ "key": "accountId", "value": "{{accountId}}" }]
+                }
+              }
+            },
+            {
+              "name": "GET Get PIX Key",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/pix/keys/{{pixKeyId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "pix", "keys", "{{pixKeyId}}"]
+                }
+              }
+            },
+            {
+              "name": "DELETE Revoke PIX Key",
+              "request": {
+                "method": "DELETE",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/pix/keys/{{pixKeyId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "pix", "keys", "{{pixKeyId}}"]
+                }
+              }
+            },
+            {
+              "name": "POST Claim PIX Key",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/pix/keys/claim",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "pix", "keys", "claim"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"keyType\": \"EMAIL\",\n  \"keyValue\": \"john.doe@example.com\",\n  \"accountId\": \"{{accountId}}\",\n  \"claimToken\": \"token-from-dict\"\n}"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "💸 PIX Transfers",
+          "item": [
+            {
+              "name": "POST Initiate PIX Transfer",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/pix/transfers",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "pix", "transfers"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"payerAccountId\": \"{{accountId}}\",\n  \"payeeKeyType\": \"CPF\",\n  \"payeeKeyValue\": \"98765432100\",\n  \"amount\": 100.00,\n  \"description\": \"Payment for services\",\n  \"endToEndId\": \"E2E123456789\"\n}"
+                }
+              }
+            },
+            {
+              "name": "GET Get PIX Transfer",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/pix/transfers/{{transferId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "pix", "transfers", "{{transferId}}"]
+                }
+              }
+            },
+            {
+              "name": "GET List PIX Transfers",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/pix/transfers?accountId={{accountId}}&startDate=2024-01-01&endDate=2024-12-31",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "pix", "transfers"],
+                  "query": [
+                    { "key": "accountId", "value": "{{accountId}}" },
+                    { "key": "startDate", "value": "2024-01-01" },
+                    { "key": "endDate", "value": "2024-12-31" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "POST Cancel PIX Transfer",
+              "request": {
+                "method": "POST",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/pix/transfers/{{transferId}}/cancel",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "pix", "transfers", "{{transferId}}", "cancel"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "📱 QR Code",
+          "item": [
+            {
+              "name": "POST Generate Static QR Code",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/pix/qrcode/static",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "pix", "qrcode", "static"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountId\": \"{{accountId}}\",\n  \"amount\": 50.00,\n  \"description\": \"Product purchase\"\n}"
+                }
+              }
+            },
+            {
+              "name": "POST Generate Dynamic QR Code",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/pix/qrcode/dynamic",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "pix", "qrcode", "dynamic"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountId\": \"{{accountId}}\",\n  \"amount\": 75.00,\n  \"description\": \"Service payment\",\n  \"expiration\": 3600\n}"
+                }
+              }
+            },
+            {
+              "name": "POST Decode QR Code",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/pix/qrcode/decode",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "pix", "qrcode", "decode"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"payload\": \"00020126580014br.gov.bcb.pix0136550e8400-e29b-41d4-a716-4466554400005204000053039865405100.005802BR5925John Doe6009SAO PAULO62070503***6304ABCD\"\n}"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "💸 Transfers (TED/DOC/Internal)",
+      "item": [
+        {
+          "name": "POST Create TED Transfer",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/transfers/ted",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "transfers", "ted"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceAccountId\": \"{{accountId}}\",\n  \"targetBank\": \"341\",\n  \"targetBranch\": \"1234\",\n  \"targetAccount\": \"56789-0\",\n  \"targetAccountType\": \"CHECKING\",\n  \"targetDocument\": \"98765432100\",\n  \"targetName\": \"Jane Smith\",\n  \"amount\": 5000.00,\n  \"description\": \"Invoice payment\"\n}"
+            }
+          }
+        },
+        {
+          "name": "POST Create DOC Transfer",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/transfers/doc",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "transfers", "doc"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceAccountId\": \"{{accountId}}\",\n  \"targetBank\": \"237\",\n  \"targetBranch\": \"5678\",\n  \"targetAccount\": \"12345-6\",\n  \"targetAccountType\": \"SAVINGS\",\n  \"targetDocument\": \"11122233344\",\n  \"targetName\": \"John Doe\",\n  \"amount\": 1000.00,\n  \"description\": \"Salary transfer\"\n}"
+            }
+          }
+        },
+        {
+          "name": "POST Create Internal Transfer",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/transfers/internal",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "transfers", "internal"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceAccountId\": \"{{accountId}}\",\n  \"targetAccountId\": \"550e8400-e29b-41d4-a716-446655440099\",\n  \"amount\": 250.00,\n  \"description\": \"Transfer between own accounts\"\n}"
+            }
+          }
+        },
+        {
+          "name": "GET Get Transfer",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/transfers/{{transferId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "transfers", "{{transferId}}"]
+            }
+          }
+        },
+        {
+          "name": "GET List Transfers",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/transfers?accountId={{accountId}}&type=TED&status=COMPLETED&page=0&size=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "transfers"],
+              "query": [
+                { "key": "accountId", "value": "{{accountId}}" },
+                { "key": "type", "value": "TED" },
+                { "key": "status", "value": "COMPLETED" },
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "20" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST Schedule Transfer",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/transfers/schedule",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "transfers", "schedule"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceAccountId\": \"{{accountId}}\",\n  \"targetBank\": \"341\",\n  \"targetBranch\": \"1234\",\n  \"targetAccount\": \"56789-0\",\n  \"targetAccountType\": \"CHECKING\",\n  \"targetDocument\": \"98765432100\",\n  \"targetName\": \"Jane Smith\",\n  \"amount\": 1000.00,\n  \"description\": \"Monthly rent\",\n  \"scheduledDate\": \"2024-02-01\",\n  \"recurrence\": \"MONTHLY\",\n  \"endDate\": \"2024-12-01\"\n}"
+            }
+          }
+        },
+        {
+          "name": "POST Cancel Transfer",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/transfers/{{transferId}}/cancel",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "transfers", "{{transferId}}", "cancel"]
+            }
+          }
+        },
+        {
+          "name": "POST Reverse Transfer",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/transfers/{{transferId}}/reverse",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "transfers", "{{transferId}}", "reverse"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Duplicate payment\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "💳 Credit & Loans",
+      "item": [
+        {
+          "name": "POST Submit Loan Application",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/credit/applications",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "credit", "applications"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"productCode\": \"PERSONAL_LOAN\",\n  \"amount\": 50000.00,\n  \"termMonths\": 24,\n  \"purpose\": \"DEBT_CONSOLIDATION\",\n  \"monthlyIncome\": 15000.00,\n  \"employmentType\": \"CLT\",\n  \"employerName\": \"Tech Corp\",\n  \"employmentDurationMonths\": 36\n}"
+            }
+          }
+        },
+        {
+          "name": "GET Get Loan Application",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/credit/applications/{{loanId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "credit", "applications", "{{loanId}}"]
+            }
+          }
+        },
+        {
+          "name": "GET List Loan Applications",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/credit/applications?customerId={{customerId}}&status=PENDING",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "credit", "applications"],
+              "query": [
+                { "key": "customerId", "value": "{{customerId}}" },
+                { "key": "status", "value": "PENDING" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST Approve Loan Application",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/credit/applications/{{loanId}}/approve",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "credit", "applications", "{{loanId}}", "approve"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"approvedAmount\": 50000.00,\n  \"approvedRate\": 0.025,\n  \"approvedTermMonths\": 24,\n  \"conditions\": [\"Insurance required\", \"Automatic debit mandatory\"]\n}"
+            }
+          }
+        },
+        {
+          "name": "POST Reject Loan Application",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/credit/applications/{{loanId}}/reject",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "credit", "applications", "{{loanId}}", "reject"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Insufficient income for requested amount\"\n}"
+            }
+          }
+        },
+        {
+          "name": "POST Disburse Loan",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/credit/loans/{{loanId}}/disburse",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "credit", "loans", "{{loanId}}", "disburse"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"destinationAccountId\": \"{{accountId}}\"\n}"
+            }
+          }
+        },
+        {
+          "name": "GET Get Loan Details",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/credit/loans/{{loanId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "credit", "loans", "{{loanId}}"]
+            }
+          }
+        },
+        {
+          "name": "GET Get Amortization Schedule",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/credit/loans/{{loanId}}/schedule",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "credit", "loans", "{{loanId}}", "schedule"]
+            }
+          }
+        },
+        {
+          "name": "POST Make Payment",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/credit/loans/{{loanId}}/payments",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "credit", "loans", "{{loanId}}", "payments"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 2200.00,\n  \"paymentDate\": \"2024-01-15\",\n  \"sourceAccountId\": \"{{accountId}}\"\n}"
+            }
+          }
+        },
+        {
+          "name": "GET Get Credit Score",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/credit/score/{{customerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "credit", "score", "{{customerId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "💳 Cards",
+      "item": [
+        {
+          "name": "🎫 Card Management",
+          "item": [
+            {
+              "name": "POST Issue Card",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/cards",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "cards"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountId\": \"{{accountId}}\",\n  \"customerId\": \"{{customerId}}\",\n  \"cardType\": \"CREDIT\",\n  \"brand\": \"VISA\",\n  \"cardholderName\": \"JOHN DOE\",\n  \"expirationMonth\": 12,\n  \"expirationYear\": 2027,\n  \"limit\": 10000.00\n}"
+                }
+              }
+            },
+            {
+              "name": "GET Get Card",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/cards/{{cardId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "cards", "{{cardId}}"]
+                }
+              }
+            },
+            {
+              "name": "GET List Cards by Customer",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/cards?customerId={{customerId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "cards"],
+                  "query": [{ "key": "customerId", "value": "{{customerId}}" }]
+                }
+              }
+            },
+            {
+              "name": "POST Activate Card",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/cards/{{cardId}}/activate",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "cards", "{{cardId}}", "activate"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"activationCode\": \"123456\"\n}"
+                }
+              }
+            },
+            {
+              "name": "POST Block Card",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/cards/{{cardId}}/block",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "cards", "{{cardId}}", "block"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"LOST\",\n  \"blockedBy\": \"CUSTOMER\"\n}"
+                }
+              }
+            },
+            {
+              "name": "POST Unblock Card",
+              "request": {
+                "method": "POST",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/cards/{{cardId}}/unblock",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "cards", "{{cardId}}", "unblock"]
+                }
+              }
+            },
+            {
+              "name": "POST Replace Card",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/cards/{{cardId}}/replace",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "cards", "{{cardId}}", "replace"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"DAMAGED\",\n  \"newExpirationMonth\": 12,\n  \"newExpirationYear\": 2028\n}"
+                }
+              }
+            },
+            {
+              "name": "PUT Update Card Limit",
+              "request": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/cards/{{cardId}}/limit",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "cards", "{{cardId}}", "limit"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"newLimit\": 15000.00\n}"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "💳 Card Transactions",
+          "item": [
+            {
+              "name": "GET List Card Transactions",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/cards/{{cardId}}/transactions?startDate=2024-01-01&endDate=2024-12-31&page=0&size=50",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "cards", "{{cardId}}", "transactions"],
+                  "query": [
+                    { "key": "startDate", "value": "2024-01-01" },
+                    { "key": "endDate", "value": "2024-12-31" },
+                    { "key": "page", "value": "0" },
+                    { "key": "size", "value": "50" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "GET Get Transaction",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/cards/transactions/550e8400-e29b-41d4-a716-446655440020",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "cards", "transactions", "550e8400-e29b-41d4-a716-446655440020"]
+                }
+              }
+            },
+            {
+              "name": "POST Dispute Transaction",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/cards/transactions/550e8400-e29b-41d4-a716-446655440020/dispute",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "cards", "transactions", "550e8400-e29b-41d4-a716-446655440020", "dispute"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"UNAUTHORIZED\",\n  \"description\": \"I did not make this purchase\"\n}"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "📋 Invoices",
+          "item": [
+            {
+              "name": "GET Get Current Invoice",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/cards/{{cardId}}/invoices/current",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "cards", "{{cardId}}", "invoices", "current"]
+                }
+              }
+            },
+            {
+              "name": "GET List Invoices",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/cards/{{cardId}}/invoices?year=2024",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "cards", "{{cardId}}", "invoices"],
+                  "query": [{ "key": "year", "value": "2024" }]
+                }
+              }
+            },
+            {
+              "name": "GET Get Invoice",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/cards/invoices/550e8400-e29b-41d4-a716-446655440030",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "cards", "invoices", "550e8400-e29b-41d4-a716-446655440030"]
+                }
+              }
+            },
+            {
+              "name": "POST Pay Invoice",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/cards/invoices/550e8400-e29b-41d4-a716-446655440030/pay",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "cards", "invoices", "550e8400-e29b-41d4-a716-446655440030", "pay"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": 5000.00,\n  \"sourceAccountId\": \"{{accountId}}\",\n  \"paymentType\": \"FULL\"\n}"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "💰 Fees & Interest",
+      "item": [
+        {
+          "name": "⚙️ Fee Configuration",
+          "item": [
+            {
+              "name": "POST Create Fee Config",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fees/configs",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fees", "configs"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"TED Transfer Fee\",\n  \"productCode\": \"TED_TRANSFER\",\n  \"feeType\": \"FIXED\",\n  \"amount\": 20.00,\n  \"currency\": \"BRL\",\n  \"tierRules\": [],\n  \"conditions\": {}\n}"
+                }
+              }
+            },
+            {
+              "name": "GET Get Fee Config",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fees/configs/{{feeConfigId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fees", "configs", "{{feeConfigId}}"]
+                }
+              }
+            },
+            {
+              "name": "GET List Fee Configs",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fees/configs?productCode=TED_TRANSFER",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fees", "configs"],
+                  "query": [{ "key": "productCode", "value": "TED_TRANSFER" }]
+                }
+              }
+            },
+            {
+              "name": "PUT Update Fee Config",
+              "request": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fees/configs/{{feeConfigId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fees", "configs", "{{feeConfigId}}"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"TED Transfer Fee Updated\",\n  \"productCode\": \"TED_TRANSFER\",\n  \"feeType\": \"FIXED\",\n  \"amount\": 22.00,\n  \"currency\": \"BRL\",\n  \"tierRules\": [],\n  \"conditions\": {}\n}"
+                }
+              }
+            },
+            {
+              "name": "DELETE Delete Fee Config",
+              "request": {
+                "method": "DELETE",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fees/configs/{{feeConfigId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fees", "configs", "{{feeConfigId}}"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "💸 Fee Charges",
+          "item": [
+            {
+              "name": "POST Calculate Fee",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fees/calculate",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fees", "calculate"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productCode\": \"TED_TRANSFER\",\n  \"amount\": 5000.00,\n  \"currency\": \"BRL\",\n  \"customerId\": \"{{customerId}}\",\n  \"metadata\": {}\n}"
+                }
+              }
+            },
+            {
+              "name": "POST Apply Fee",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fees/apply",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fees", "apply"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productCode\": \"TED_TRANSFER\",\n  \"amount\": 5000.00,\n  \"currency\": \"BRL\",\n  \"customerId\": \"{{customerId}}\",\n  \"accountId\": \"{{accountId}}\",\n  \"referenceId\": \"txn-123\",\n  \"description\": \"TED transfer fee\"\n}"
+                }
+              }
+            },
+            {
+              "name": "GET List Fee Charges",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fees/charges?customerId={{customerId}}&startDate=2024-01-01&endDate=2024-12-31",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fees", "charges"],
+                  "query": [
+                    { "key": "customerId", "value": "{{customerId}}" },
+                    { "key": "startDate", "value": "2024-01-01" },
+                    { "key": "endDate", "value": "2024-12-31" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "POST Waive Fee",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fees/charges/550e8400-e29b-41d4-a716-446655440040/waive",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fees", "charges", "550e8400-e29b-41d4-a716-446655440040", "waive"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"VIP customer benefit\"\n}"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "📊 Interest Rates",
+          "item": [
+            {
+              "name": "POST Upsert Interest Rate",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/interest/rates",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "interest", "rates"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"indexType\": \"CDI\",\n  \"date\": \"2024-01-15\",\n  \"rate\": 0.1175,\n  \"productCode\": \"PERSONAL_LOAN\",\n  \"spread\": 0.025\n}"
+                }
+              }
+            },
+            {
+              "name": "GET Get Interest Rate",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/interest/rates/{{interestRateId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "interest", "rates", "{{interestRateId}}"]
+                }
+              }
+            },
+            {
+              "name": "GET List Interest Rates",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/interest/rates?indexType=CDI&productCode=PERSONAL_LOAN",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "interest", "rates"],
+                  "query": [
+                    { "key": "indexType", "value": "CDI" },
+                    { "key": "productCode", "value": "PERSONAL_LOAN" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "GET Get Latest Rate",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/interest/rates/latest?indexType=CDI&date=2024-01-15&productCode=PERSONAL_LOAN",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "interest", "rates", "latest"],
+                  "query": [
+                    { "key": "indexType", "value": "CDI" },
+                    { "key": "date", "value": "2024-01-15" },
+                    { "key": "productCode", "value": "PERSONAL_LOAN" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "POST Calculate Simple Interest",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/interest/rates/calculate/simple?indexType=CDI&principal=10000&days=30&productCode=PERSONAL_LOAN",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "interest", "rates", "calculate", "simple"],
+                  "query": [
+                    { "key": "indexType", "value": "CDI" },
+                    { "key": "principal", "value": "10000" },
+                    { "key": "days", "value": "30" },
+                    { "key": "productCode", "value": "PERSONAL_LOAN" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "POST Calculate Compound Interest",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/interest/rates/calculate/compound?indexType=CDI&principal=10000&days=30&productCode=PERSONAL_LOAN",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "interest", "rates", "calculate", "compound"],
+                  "query": [
+                    { "key": "indexType", "value": "CDI" },
+                    { "key": "principal", "value": "10000" },
+                    { "key": "days", "value": "30" },
+                    { "key": "productCode", "value": "PERSONAL_LOAN" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "POST Accrue Interest",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/interest/rates/accrue?accountId={{accountId}}&principal=10000&indexType=CDI&productCode=PERSONAL_LOAN&accrualDate=2024-01-15&days=30",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "interest", "rates", "accrue"],
+                  "query": [
+                    { "key": "accountId", "value": "{{accountId}}" },
+                    { "key": "principal", "value": "10000" },
+                    { "key": "indexType", "value": "CDI" },
+                    { "key": "productCode", "value": "PERSONAL_LOAN" },
+                    { "key": "accrualDate", "value": "2024-01-15" },
+                    { "key": "days", "value": "30" }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "🛡️ Limits & Blocks",
+      "item": [
+        {
+          "name": "📏 Customer Limits",
+          "item": [
+            {
+              "name": "POST Create Limit",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/limits",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "limits"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"accountId\": \"{{accountId}}\",\n  \"limitType\": \"DAILY_TRANSACTION\",\n  \"scope\": \"ACCOUNT\",\n  \"amount\": 5000.00,\n  \"currency\": \"BRL\",\n  \"period\": \"DAILY\",\n  \"startDate\": \"2024-01-01\",\n  \"endDate\": \"2024-12-31\"\n}"
+                }
+              }
+            },
+            {
+              "name": "GET Get Limit",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/limits/{{limitId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "limits", "{{limitId}}"]
+                }
+              }
+            },
+            {
+              "name": "GET List All Limits",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/limits",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "limits"]
+                }
+              }
+            },
+            {
+              "name": "GET List Limits by Customer",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/limits/customer/{{customerId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "limits", "customer", "{{customerId}}"]
+                }
+              }
+            },
+            {
+              "name": "GET List Active Limits by Customer",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/limits/customer/{{customerId}}/active",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "limits", "customer", "{{customerId}}", "active"]
+                }
+              }
+            },
+            {
+              "name": "GET Find Applicable Limits",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/limits/applicable?customerId={{customerId}}&accountId={{accountId}}&cardId={{cardId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "limits", "applicable"],
+                  "query": [
+                    { "key": "customerId", "value": "{{customerId}}" },
+                    { "key": "accountId", "value": "{{accountId}}" },
+                    { "key": "cardId", "value": "{{cardId}}" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "PUT Update Limit",
+              "request": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/limits/{{limitId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "limits", "{{limitId}}"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"accountId\": \"{{accountId}}\",\n  \"limitType\": \"DAILY_TRANSACTION\",\n  \"scope\": \"ACCOUNT\",\n  \"amount\": 7500.00,\n  \"currency\": \"BRL\",\n  \"period\": \"DAILY\",\n  \"startDate\": \"2024-01-01\",\n  \"endDate\": \"2024-12-31\"\n}"
+                }
+              }
+            },
+            {
+              "name": "POST Activate Limit",
+              "request": {
+                "method": "POST",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/limits/{{limitId}}/activate",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "limits", "{{limitId}}", "activate"]
+                }
+              }
+            },
+            {
+              "name": "POST Deactivate Limit",
+              "request": {
+                "method": "POST",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/limits/{{limitId}}/deactivate",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "limits", "{{limitId}}", "deactivate"]
+                }
+              }
+            },
+            {
+              "name": "DELETE Delete Limit",
+              "request": {
+                "method": "DELETE",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/limits/{{limitId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "limits", "{{limitId}}"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "✅ Limit Validation",
+          "item": [
+            {
+              "name": "POST Validate Transaction",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/limits/validate",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "limits", "validate"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"accountId\": \"{{accountId}}\",\n  \"cardId\": \"{{cardId}}\",\n  \"amount\": 1000.00,\n  \"currency\": \"BRL\",\n  \"transactionType\": \"TRANSFER\",\n  \"merchantCategory\": \"5411\",\n  \"metadata\": {}\n}"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "🚫 Transaction Blocks",
+          "item": [
+            {
+              "name": "POST Create Block",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/blocks",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "blocks"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"accountId\": \"{{accountId}}\",\n  \"cardId\": \"{{cardId}}\",\n  \"blockType\": \"FRAUD_SUSPICION\",\n  \"scope\": \"CUSTOMER\",\n  \"reason\": \"Suspicious transaction pattern detected\",\n  \"expiryDate\": \"2024-02-01T23:59:59\"\n}"
+                }
+              }
+            },
+            {
+              "name": "GET Get Block",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/blocks/{{blockId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "blocks", "{{blockId}}"]
+                }
+              }
+            },
+            {
+              "name": "GET List All Blocks",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/blocks",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "blocks"]
+                }
+              }
+            },
+            {
+              "name": "GET List Blocks by Customer",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/blocks/customer/{{customerId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "blocks", "customer", "{{customerId}}"]
+                }
+              }
+            },
+            {
+              "name": "GET List Active Blocks for Customer",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/blocks/customer/{{customerId}}/active?accountId={{accountId}}&cardId={{cardId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "blocks", "customer", "{{customerId}}", "active"],
+                  "query": [
+                    { "key": "accountId", "value": "{{accountId}}" },
+                    { "key": "cardId", "value": "{{cardId}}" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "POST Approve Block",
+              "request": {
+                "method": "POST",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/blocks/{{blockId}}/approve?approvedBy=admin-001",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "blocks", "{{blockId}}", "approve"],
+                  "query": [{ "key": "approvedBy", "value": "admin-001" }]
+                }
+              }
+            },
+            {
+              "name": "POST Revoke Block",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/blocks/{{blockId}}/revoke",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "blocks", "{{blockId}}", "revoke"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"revokedBy\": \"admin-001\",\n  \"reason\": \"False positive - customer verified\"\n}"
+                }
+              }
+            },
+            {
+              "name": "PUT Update Block",
+              "request": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/blocks/{{blockId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "blocks", "{{blockId}}"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"accountId\": \"{{accountId}}\",\n  \"blockType\": \"FRAUD_SUSPICION\",\n  \"scope\": \"CUSTOMER\",\n  \"reason\": \"Updated reason - Suspicious transaction pattern detected\",\n  \"expiryDate\": \"2024-02-15T23:59:59\"\n}"
+                }
+              }
+            },
+            {
+              "name": "POST Expire Blocks",
+              "request": {
+                "method": "POST",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/blocks/expire",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "blocks", "expire"]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "🚨 Antifraud",
+      "item": [
+        {
+          "name": "📋 Fraud Rules",
+          "item": [
+            {
+              "name": "POST Create Fraud Rule",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/rules",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "rules"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"High Velocity Transactions\",\n  \"description\": \"Detects more than 10 transactions in 1 hour\",\n  \"ruleType\": \"VELOCITY\",\n  \"conditions\": {\n    \"maxTransactions\": 10,\n    \"timeWindowMinutes\": 60\n  },\n  \"action\": \"BLOCK\",\n  \"priority\": 10,\n  \"enabled\": true\n}"
+                }
+              }
+            },
+            {
+              "name": "GET Get Fraud Rule",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/rules/{{fraudRuleId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "rules", "{{fraudRuleId}}"]
+                }
+              }
+            },
+            {
+              "name": "GET List Fraud Rules",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/rules?enabled=true",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "rules"],
+                  "query": [{ "key": "enabled", "value": "true" }]
+                }
+              }
+            },
+            {
+              "name": "PUT Update Fraud Rule",
+              "request": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/rules/{{fraudRuleId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "rules", "{{fraudRuleId}}"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"High Velocity Transactions Updated\",\n  \"description\": \"Detects more than 15 transactions in 1 hour\",\n  \"ruleType\": \"VELOCITY\",\n  \"conditions\": {\n    \"maxTransactions\": 15,\n    \"timeWindowMinutes\": 60\n  },\n  \"action\": \"ALERT\",\n  \"priority\": 10,\n  \"enabled\": true\n}"
+                }
+              }
+            },
+            {
+              "name": "POST Toggle Rule",
+              "request": {
+                "method": "POST",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/rules/{{fraudRuleId}}/toggle",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "rules", "{{fraudRuleId}}", "toggle"]
+                }
+              }
+            },
+            {
+              "name": "DELETE Delete Fraud Rule",
+              "request": {
+                "method": "DELETE",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/rules/{{fraudRuleId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "rules", "{{fraudRuleId}}"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "⚡ Risk Scoring",
+          "item": [
+            {
+              "name": "POST Calculate Risk Score",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/risk-score",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "risk-score"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"transactionId\": \"txn-123\",\n  \"amount\": 5000.00,\n  \"channel\": \"MOBILE\",\n  \"merchantCategory\": \"5411\",\n  \"deviceId\": \"device-abc123\",\n  \"ipAddress\": \"192.168.1.100\",\n  \"metadata\": {}\n}"
+                }
+              }
+            },
+            {
+              "name": "POST Batch Calculate Risk Scores",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/risk-score/batch",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "risk-score", "batch"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"customerId\": \"{{customerId}}\",\n    \"transactionId\": \"txn-123\",\n    \"amount\": 5000.00,\n    \"channel\": \"MOBILE\"\n  },\n  {\n    \"customerId\": \"{{customerId}}\",\n    \"transactionId\": \"txn-124\",\n    \"amount\": 1000.00,\n    \"channel\": \"WEB\"\n  }\n]"
+                }
+              }
+            },
+            {
+              "name": "GET Get Risk Profile",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/risk-profile/{{customerId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "risk-profile", "{{customerId}}"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "🔔 Fraud Alerts",
+          "item": [
+            {
+              "name": "GET List Fraud Alerts",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/alerts?status=OPEN&page=0&size=20",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "alerts"],
+                  "query": [
+                    { "key": "status", "value": "OPEN" },
+                    { "key": "page", "value": "0" },
+                    { "key": "size", "value": "20" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "GET Get Fraud Alert",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/alerts/{{fraudAlertId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "alerts", "{{fraudAlertId}}"]
+                }
+              }
+            },
+            {
+              "name": "POST Acknowledge Alert",
+              "request": {
+                "method": "POST",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/alerts/{{fraudAlertId}}/acknowledge",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "alerts", "{{fraudAlertId}}", "acknowledge"]
+                }
+              }
+            },
+            {
+              "name": "POST Resolve Alert",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/alerts/{{fraudAlertId}}/resolve",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "alerts", "{{fraudAlertId}}", "resolve"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"resolution\": \"FALSE_POSITIVE\",\n  \"notes\": \"Customer verified transactions as legitimate\"\n}"
+                }
+              }
+            },
+            {
+              "name": "POST Escalate Alert",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/alerts/{{fraudAlertId}}/escalate",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "alerts", "{{fraudAlertId}}", "escalate"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"High risk pattern requires investigation\"\n}"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "📁 Fraud Cases",
+          "item": [
+            {
+              "name": "POST Create Fraud Case",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/cases",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "cases"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"alertIds\": [\"{{fraudAlertId}}\"],\n  \"priority\": \"HIGH\",\n  \"assignedTo\": \"analyst-001\"\n}"
+                }
+              }
+            },
+            {
+              "name": "GET Get Fraud Case",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/cases/{{fraudCaseId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "cases", "{{fraudCaseId}}"]
+                }
+              }
+            },
+            {
+              "name": "GET List Fraud Cases",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/cases?status=IN_PROGRESS&assignee=analyst-001",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "cases"],
+                  "query": [
+                    { "key": "status", "value": "IN_PROGRESS" },
+                    { "key": "assignee", "value": "analyst-001" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "POST Update Case Status",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/cases/{{fraudCaseId}}/status",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "cases", "{{fraudCaseId}}", "status"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"RESOLVED\",\n  \"resolution\": \"FRAUD_CONFIRMED\",\n  \"notes\": \"Confirmed unauthorized transactions, card blocked\"\n}"
+                }
+              }
+            },
+            {
+              "name": "POST Add Evidence",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/cases/{{fraudCaseId}}/evidence",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "cases", "{{fraudCaseId}}", "evidence"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"TRANSACTION_LOG\",\n  \"description\": \"Transaction logs showing unusual pattern\",\n  \"data\": {}\n}"
+                }
+              }
+            },
+            {
+              "name": "POST Close Case",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/cases/{{fraudCaseId}}/close",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "cases", "{{fraudCaseId}}", "close"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"resolution\": \"FRAUD_CONFIRMED\",\n  \"notes\": \"Case closed - fraud confirmed, losses recovered\"\n}"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "📱 Device Fingerprint",
+          "item": [
+            {
+              "name": "POST Register Device",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/devices",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "devices"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"deviceId\": \"device-xyz789\",\n  \"fingerprint\": \"fp-abc123def456\",\n  \"userAgent\": \"Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)\",\n  \"ipAddress\": \"192.168.1.100\",\n  \"metadata\": {\n    \"os\": \"iOS 17.0\",\n    \"model\": \"iPhone 15\"\n  }\n}"
+                }
+              }
+            },
+            {
+              "name": "GET Get Device",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/devices/device-xyz789",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "devices", "device-xyz789"]
+                }
+              }
+            },
+            {
+              "name": "GET List Customer Devices",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/devices/customer/{{customerId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "devices", "customer", "{{customerId}}"]
+                }
+              }
+            },
+            {
+              "name": "POST Mark Device Trusted",
+              "request": {
+                "method": "POST",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/devices/device-xyz789/trust",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "devices", "device-xyz789", "trust"]
+                }
+              }
+            },
+            {
+              "name": "POST Mark Device Untrusted",
+              "request": {
+                "method": "POST",
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/fraud/devices/device-xyz789/untrust",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "fraud", "devices", "device-xyz789", "untrust"]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "📜 Audit & Compliance",
+      "item": [
+        {
+          "name": "GET Get Audit Event",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/audit/events/{{auditEventId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "audit", "events", "{{auditEventId}}"]
+            }
+          }
+        },
+        {
+          "name": "GET Query Audit Events",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/audit/events?entityType=Account&entityId={{accountId}}&start=2024-01-01T00:00:00Z&end=2024-12-31T23:59:59Z&page=0&size=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "audit", "events"],
+              "query": [
+                { "key": "entityType", "value": "Account" },
+                { "key": "entityId", "value": "{{accountId}}" },
+                { "key": "start", "value": "2024-01-01T00:00:00Z" },
+                { "key": "end", "value": "2024-12-31T23:59:59Z" },
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "20" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET Get Entity History",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/audit/entities/Account/{{accountId}}/history?start=2024-01-01T00:00:00Z&end=2024-12-31T23:59:59Z",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "audit", "entities", "Account", "{{accountId}}", "history"],
+              "query": [
+                { "key": "start", "value": "2024-01-01T00:00:00Z" },
+                { "key": "end", "value": "2024-12-31T23:59:59Z" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET Get Latest Event for Entity",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/audit/entities/Account/{{accountId}}/latest",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "audit", "entities", "Account", "{{accountId}}", "latest"]
+            }
+          }
+        },
+        {
+          "name": "GET Get Correlation Trail",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/audit/events?correlationId=corr-12345&page=0&size=50",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "audit", "events"],
+              "query": [
+                { "key": "correlationId", "value": "corr-12345" },
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "50" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET Verify Event Integrity",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/audit/events/{{auditEventId}}/verify",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "audit", "events", "{{auditEventId}}", "verify"]
+            }
+          }
+        },
+        {
+          "name": "GET Get Audit Statistics",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/audit/statistics?start=2024-01-01T00:00:00Z&end=2024-12-31T23:59:59Z",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "audit", "statistics"],
+              "query": [
+                { "key": "start", "value": "2024-01-01T00:00:00Z" },
+                { "key": "end", "value": "2024-12-31T23:59:59Z" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET Export Entity Audit Trail (JSON)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/audit/export/Account/{{accountId}}?start=2024-01-01T00:00:00Z&end=2024-12-31T23:59:59Z",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "audit", "export", "Account", "{{accountId}}"],
+              "query": [
+                { "key": "start", "value": "2024-01-01T00:00:00Z" },
+                { "key": "end", "value": "2024-12-31T23:59:59Z" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET Export Entity Audit Trail (GZIP)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/audit/export/Account/{{accountId}}/gz?start=2024-01-01T00:00:00Z&end=2024-12-31T23:59:59Z",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "audit", "export", "Account", "{{accountId}}", "gz"],
+              "query": [
+                { "key": "start", "value": "2024-01-01T00:00:00Z" },
+                { "key": "end", "value": "2024-12-31T23:59:59Z" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET Export Entity Audit Trail (CSV)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/audit/export/Account/{{accountId}}/csv?start=2024-01-01T00:00:00Z&end=2024-12-31T23:59:59Z",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "audit", "export", "Account", "{{accountId}}", "csv"],
+              "query": [
+                { "key": "start", "value": "2024-01-01T00:00:00Z" },
+                { "key": "end", "value": "2024-12-31T23:59:59Z" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET Export Period Audit Trail (CSV)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/audit/export/period?start=2024-01-01T00:00:00Z&end=2024-12-31T23:59:59Z&page=0&size=5000",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "audit", "export", "period"],
+              "query": [
+                { "key": "start", "value": "2024-01-01T00:00:00Z" },
+                { "key": "end", "value": "2024-12-31T23:59:59Z" },
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "5000" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📊 Reconciliation",
+      "item": [
+        {
+          "name": "POST Create Reconciliation Job",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/reconciliation/jobs?jobType=DAILY_SETTLEMENT&sourceSystem=core-banking&targetSystem=general-ledger&externalReference=RECON-2024-01-15",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "reconciliation", "jobs"],
+              "query": [
+                { "key": "jobType", "value": "DAILY_SETTLEMENT" },
+                { "key": "sourceSystem", "value": "core-banking" },
+                { "key": "targetSystem", "value": "general-ledger" },
+                { "key": "externalReference", "value": "RECON-2024-01-15" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST Run Reconciliation Job",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/reconciliation/jobs/{{reconJobId}}/run",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "reconciliation", "jobs", "{{reconJobId}}", "run"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceRecords\": [\n    {\n      \"entityType\": \"Transfer\",\n      \"entityId\": \"txn-001\",\n      \"reference\": \"ref-001\",\n      \"amount\": 1000.00,\n      \"currency\": \"BRL\",\n      \"status\": \"COMPLETED\"\n    }\n  ],\n  \"targetRecords\": [\n    {\n      \"entityType\": \"Transfer\",\n      \"entityId\": \"txn-001\",\n      \"reference\": \"ref-001\",\n      \"amount\": 1000.00,\n      \"currency\": \"BRL\",\n      \"status\": \"COMPLETED\"\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "GET List Reconciliation Jobs",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/reconciliation/jobs?status=COMPLETED_WITH_BREAKS&jobType=DAILY_SETTLEMENT&page=0&size=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "reconciliation", "jobs"],
+              "query": [
+                { "key": "status", "value": "COMPLETED_WITH_BREAKS" },
+                { "key": "jobType", "value": "DAILY_SETTLEMENT" },
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "20" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET Get Reconciliation Job",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/reconciliation/jobs/{{reconJobId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "reconciliation", "jobs", "{{reconJobId}}"]
+            }
+          }
+        },
+        {
+          "name": "GET Get Latest Job by Type",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/reconciliation/jobs/latest/DAILY_SETTLEMENT",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "reconciliation", "jobs", "latest", "DAILY_SETTLEMENT"]
+            }
+          }
+        },
+        {
+          "name": "GET Get Job Breaks",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/reconciliation/jobs/{{reconJobId}}/breaks?status=OPEN&page=0&size=50",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "reconciliation", "jobs", "{{reconJobId}}", "breaks"],
+              "query": [
+                { "key": "status", "value": "OPEN" },
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "50" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET Get Reconciliation Dashboard",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/reconciliation/dashboard",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "reconciliation", "dashboard"]
+            }
+          }
+        },
+        {
+          "name": "GET List All Breaks",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/reconciliation/breaks?status=OPEN&page=0&size=50",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "reconciliation", "breaks"],
+              "query": [
+                { "key": "status", "value": "OPEN" },
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "50" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET Get Overdue Breaks",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/reconciliation/breaks/overdue",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "reconciliation", "breaks", "overdue"]
+            }
+          }
+        },
+        {
+          "name": "GET Get Prioritized Breaks",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/reconciliation/breaks/prioritized/{{reconJobId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "reconciliation", "breaks", "prioritized", "{{reconJobId}}"]
+            }
+          }
+        },
+        {
+          "name": "POST Assign Break",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/reconciliation/breaks/{{reconBreakId}}/assign?assigneeId=analyst-001",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "reconciliation", "breaks", "{{reconBreakId}}", "assign"],
+              "query": [{ "key": "assigneeId", "value": "analyst-001" }]
+            }
+          }
+        },
+        {
+          "name": "POST Resolve Break",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/reconciliation/breaks/{{reconBreakId}}/resolve?resolvedBy=analyst-001&notes=Amount mismatch corrected",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "reconciliation", "breaks", "{{reconBreakId}}", "resolve"],
+              "query": [
+                { "key": "resolvedBy", "value": "analyst-001" },
+                { "key": "notes", "value": "Amount mismatch corrected" }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"adjustment\": 0.50,\n  \"reference\": \"ADJ-2024-001\"\n}"
+            }
+          }
+        },
+        {
+          "name": "POST Escalate Break",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/reconciliation/breaks/{{reconBreakId}}/escalate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "reconciliation", "breaks", "{{reconBreakId}}", "escalate"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notes\": \"Requires management approval for large discrepancy\"\n}"
+            }
+          }
+        },
+        {
+          "name": "GET List Reconciliation Rules",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/reconciliation/rules?jobType=DAILY_SETTLEMENT&entityType=Transfer",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "reconciliation", "rules"],
+              "query": [
+                { "key": "jobType", "value": "DAILY_SETTLEMENT" },
+                { "key": "entityType", "value": "Transfer" }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "protocolProfileBehavior": {}
+}
