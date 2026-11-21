@@ -83,7 +83,7 @@ graph TD
     api --> card[ibank-card ✅]
     api --> fee[ibank-fee ✅]
     api --> limit[ibank-limit ✅]
-    api --> antifraud[ibank-antifraud ⏳]
+    api --> antifraud[ibank-antifraud ✅]
     api --> audit[ibank-audit ✅]
     api --> recon[ibank-reconciliation ✅]
     
@@ -674,9 +674,19 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
+## 👨‍💻 Author
+
+**Enzo Vieira**
+
+- GitHub: [@EnzoVieira3012](https://github.com/EnzoVieira3012)
+- LinkedIn: [enzovieira3012](https://linkedin.com/in/enzovieira3012)
+- Email: [enzovieira.trabalho@outlook.com](mailto:enzovieira.trabalho@outlook.com)
+
+---
+
 <div align="center">
 
-**Built with ☕ by the iBank Team**
+**Built with ❤️ using Spring Boot 3, PostgreSQL, and modern Java**
 
 [Report Bug](https://github.com/EnzoVieira3012/iBank/issues) • [Request Feature](https://github.com/EnzoVieira3012/iBank/issues) • [Wiki](https://github.com/EnzoVieira3012/iBank/wiki)
 
