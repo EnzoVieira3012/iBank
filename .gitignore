@@ -70,3 +70,7 @@ test-results/
 coverage/
 *.exec
 *.ec
+
+# Dev docs (local only)
+DEV_PLAN.md
+*.local.md
