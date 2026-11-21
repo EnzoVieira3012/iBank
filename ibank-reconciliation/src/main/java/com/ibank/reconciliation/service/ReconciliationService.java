@@ -268,4 +268,23 @@ public class ReconciliationService {
     public List<ReconciliationRule> getRulesForEntity(String entityType) {
         return ruleRepository.findByEntityTypeAndActiveTrueOrderByPriorityDesc(entityType);
     }
+
+    @Transactional(readOnly = true)
+    public ReconciliationDashboard getDashboardSummary() {
+        long totalJobs = jobRepository.count();
+        long activeJobs = countActiveJobs();
+        long openBreaks = breakRepository.countByStatus("OPEN", org.springframework.data.domain.Pageable.unpaged()).getTotalElements();
+        long inProgressBreaks = breakRepository.countByStatus("IN_PROGRESS", org.springframework.data.domain.Pageable.unpaged()).getTotalElements();
+        long overdueBreaks = getOverdueBreaks().size();
+        return new ReconciliationDashboard(totalJobs, activeJobs, openBreaks, inProgressBreaks, overdueBreaks, Instant.now());
+    }
+
+    public record ReconciliationDashboard(
+        long totalJobs,
+        long activeJobs,
+        long openBreaks,
+        long inProgressBreaks,
+        long overdueBreaks,
+        Instant generatedAt
+    ) {}
 }

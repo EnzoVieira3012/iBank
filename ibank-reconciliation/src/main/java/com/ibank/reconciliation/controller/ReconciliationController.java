@@ -261,6 +261,13 @@ public class ReconciliationController {
         return ResponseEntity.ok(rules.stream().map(ruleMapper::toResponse).toList());
     }
 
+    @GetMapping("/dashboard")
+    @PreAuthorize("hasRole('RECONCILIATION_VIEW') or hasRole('ADMIN')")
+    @Operation(summary = "Get reconciliation dashboard summary")
+    public ResponseEntity<ReconciliationService.ReconciliationDashboard> getDashboard() {
+        return ResponseEntity.ok(reconciliationService.getDashboardSummary());
+    }
+
     public record MatchRequest(
         List<Map<String, Object>> sourceRecords,
         List<Map<String, Object>> targetRecords
