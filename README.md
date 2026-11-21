@@ -26,18 +26,18 @@
 
 iBank is a **production-ready banking API** demonstrating enterprise-grade patterns:
 
-| Domain | Capabilities |
-|--------|--------------|
-| 🏦 **Accounts** | Current, Savings, Salary, Payment accounts with balance management |
-| ⚡ **PIX** | Keys (CPF/CNPJ/Email/Phone/Random), Payments, QR Codes (static/dynamic), Refunds |
-| 💸 **Transfers** | TED (with cutoff), Internal (instant), Scheduled, Cancellation |
-| 🏗️ **Credit** | Loans & Financing with Price/SAC/Sacador tables, Early settlement, Renegotiation |
-| 💳 **Cards** | Credit/Debit/Multiple/Prepaid, Invoices, Installments, Transaction authorization |
-| 💰 **Fees & Interest** | Versioned fee tables, Rotary interest, Savings yield, Overdraft |
-| 🔒 **Limits** | Daily/Monthly limits, Auto-block on breach, Overdraft control |
-| 🛡️ **Antifraud** | Velocity, Device fingerprint, Geo-location, Risk scoring, Auto-block/Challenge |
-| 📜 **Audit** | Immutable logs (partitioned), Correlation ID tracing, LGPD/Bacen compliance |
-| 📊 **Reconciliation** | CNAB 240/400 import, Automated matching, Discrepancy resolution, Reports |
+| Domain | Capabilities | Status |
+|--------|--------------|--------|
+| 🏦 **Accounts** | Current, Savings, Salary, Payment accounts with balance management | ✅ Done |
+| ⚡ **PIX** | Keys (CPF/CNPJ/Email/Phone/Random), Payments, QR Codes (static/dynamic), Refunds, Mock DICT | ✅ Done |
+| 💸 **Transfers** | TED (17h cutoff), Internal (instant), Scheduled, Cancellation, Idempotency | ✅ Done |
+| 🏗️ **Credit** | Loans & Financing with Price/SAC/Sacador tables, Early settlement, Renegotiation | 🚧 In Progress |
+| 💳 **Cards** | Credit/Debit/Multiple/Prepaid, Invoices, Installments, Transaction authorization | ⏳ Planned |
+| 💰 **Fees & Interest** | Versioned fee tables, Rotary interest, Savings yield, Overdraft | ⏳ Planned |
+| 🔒 **Limits** | Daily/Monthly limits, Auto-block on breach, Overdraft control | ⏳ Planned |
+| 🛡️ **Antifraud** | Velocity, Device fingerprint, Geo-location, Risk scoring, Auto-block/Challenge | ⏳ Planned |
+| 📜 **Audit** | Immutable logs (partitioned), Correlation ID tracing, LGPD/Bacen compliance | ⏳ Planned |
+| 📊 **Reconciliation** | CNAB 240/400 import, Automated matching, Discrepancy resolution, Reports | ⏳ Planned |
 
 ---
 
@@ -76,16 +76,16 @@ iBank is a **production-ready banking API** demonstrating enterprise-grade patte
 ```mermaid
 graph TD
     api[ibank-api] --> core[ibank-core]
-    api --> account[ibank-account]
-    api --> pix[ibank-pix]
-    api --> transfer[ibank-transfer]
-    api --> credit[ibank-credit]
-    api --> card[ibank-card]
-    api --> fee[ibank-fee]
-    api --> limit[ibank-limit]
-    api --> antifraud[ibank-antifraud]
-    api --> audit[ibank-audit]
-    api --> recon[ibank-reconciliation]
+    api --> account[ibank-account ✅]
+    api --> pix[ibank-pix ✅]
+    api --> transfer[ibank-transfer ✅]
+    api --> credit[ibank-credit 🚧]
+    api --> card[ibank-card ⏳]
+    api --> fee[ibank-fee ⏳]
+    api --> limit[ibank-limit ⏳]
+    api --> antifraud[ibank-antifraud ⏳]
+    api --> audit[ibank-audit ⏳]
+    api --> recon[ibank-reconciliation ⏳]
     
     account --> core
     pix --> core
